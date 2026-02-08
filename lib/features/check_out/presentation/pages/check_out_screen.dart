@@ -28,7 +28,7 @@ class CheckoutScreen extends StatelessWidget {
         padding: EdgeInsets.all(12.h),
         child: GetX<CartController>(
           builder: (CartController controller) {
-            if(controller.dishes.isEmpty) {
+            if (controller.dishes.isEmpty) {
               return Center(
                 child: Text(
                   'Empty',
@@ -39,86 +39,85 @@ class CheckoutScreen extends StatelessWidget {
               );
             }
             return Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6).r,
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(14.h),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: double.infinity,
-                            padding: EdgeInsets.symmetric(vertical: 10.h),
-                            decoration: BoxDecoration(
-                              color: green,
-                              borderRadius: BorderRadius.circular(4).r,
-                            ),
-                            child: Center(
-                              child: Text(
-                                "${controller.dishes.length} Dishes - ${controller.dishes.length} Items",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6).r,
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(14.h),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          decoration: BoxDecoration(
+                            color: green,
+                            borderRadius: BorderRadius.circular(4).r,
+                          ),
+                          child: Center(
+                            child: Text(
+                              "${controller.dishes.length} Dishes - ${controller.totalItems.value} Items",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
-                          SizedBox(height: 18.h),
+                        ),
+                        SizedBox(height: 18.h),
 
-                          Expanded(
-                            child: ListView.separated(
-                              // shrinkWrap: true,
-                              padding: EdgeInsets.zero,
-                              itemBuilder: (context, index) {
-                                DishEntity dish =
-                                    controller.dishes.value[index];
-                                return itemRow(
-                                  isVeg: dish.isVeg,
-                                  name: dish.name,
-                                  price:
-                                      "${dish.currency} ${dish.price.toStringAsFixed(2)}",
-                                  calories: "${dish.calories} calories",
-                                  green: green,
-                                  itemIndex: index,
-                                  qty: dish.quantity,
-                                  total:
-                                      "${dish.currency} ${dish.cartTotal.toStringAsFixed(2)}",
-                                );
-                              },
-                              separatorBuilder: (context, index) =>
-                                  Divider(height: 28.h),
-                              itemCount: controller.dishes.value.length,
-                            ),
-                          ),
-
-                          Divider(height: 28.h),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        SingleChildScrollView(
+                          physics: AlwaysScrollableScrollPhysics(),
+                          child: Column(
                             children: [
-                              const Text(
-                                "Total Amount",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                              for (int i = 0; i < controller.dishes.value.length; i++)
+                                Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    itemRow(
+                                      isVeg: controller.dishes.value[i].isVeg,
+                                      name: controller.dishes.value[i].name,
+                                      price:
+                                      "${controller.dishes.value[i].currency} ${controller.dishes.value[i].price.toStringAsFixed(2)}",
+                                      calories:
+                                      "${controller.dishes.value[i].calories} calories",
+                                      green: green,
+                                      itemIndex: i,
+                                      qty: controller.dishes.value[i].quantity,
+                                      total:
+                                      "${controller.dishes.value[i].currency} ${controller.dishes.value[i].cartTotal.toStringAsFixed(2)}",
+                                    ),
+                                    Divider(height: 28.h),
+                                  ],
                                 ),
-                              ),
-                              Text(
-                                "INR ${controller.dishTotal.value.toStringAsFixed(2)}",
-                                style: TextStyle(
-                                  color: Colors.green.shade700,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16.h,
-                                ),
-                              ),
                             ],
                           ),
-                        ],
-                      ),
+                        ),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Total Amount",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Text(
+                              "INR ${controller.dishTotal.value.toStringAsFixed(2)}",
+                              style: TextStyle(
+                                color: Colors.green.shade700,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16.h,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),

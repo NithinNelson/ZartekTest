@@ -5,6 +5,7 @@ import 'package:zartek_flutter_test/features/home/presentation/controllers/home_
 class CartController extends GetxController {
   RxList<DishEntity> dishes = <DishEntity>[].obs;
   RxDouble dishTotal = 0.0.obs;
+  RxInt totalItems = 0.obs;
   final HomeController _homeController = Get.find<HomeController>();
 
   @override
@@ -28,6 +29,10 @@ class CartController extends GetxController {
       0,
       (sum, item) => sum + item.cartTotal,
     );
+    totalItems.value = dishes.fold<int>(
+      0,
+          (sum, item) => sum + item.quantity,
+    );
     super.onInit();
   }
 
@@ -44,6 +49,10 @@ class CartController extends GetxController {
     dishTotal.value = dishes.fold<double>(
       0,
       (sum, item) => sum + item.cartTotal,
+    );
+    totalItems.value = dishes.fold<int>(
+      0,
+          (sum, item) => sum + item.quantity,
     );
     int categoryIndex =
         _homeController.menu.value?.categories.indexWhere(
@@ -79,6 +88,10 @@ class CartController extends GetxController {
     dishTotal.value = dishes.fold<double>(
       0,
       (sum, item) => sum + item.cartTotal,
+    );
+    totalItems.value = dishes.fold<int>(
+      0,
+          (sum, item) => sum + item.quantity,
     );
     int categoryIndex =
         _homeController.menu.value?.categories.indexWhere(

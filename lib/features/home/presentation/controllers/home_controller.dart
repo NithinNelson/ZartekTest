@@ -13,12 +13,12 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
-    fetchMenu();
+    fetchMenu(loader: true);
     super.onInit();
   }
 
-  Future<void> fetchMenu() async {
-    loading.value = true;
+  Future<void> fetchMenu({required bool loader}) async {
+    loading.value = loader;
     menu.value = await getMenuUseCase();
     loading.value = false;
   }

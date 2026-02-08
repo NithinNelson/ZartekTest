@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zartek_flutter_test/features/login/presentation/controllers/login_controller.dart';
+
+import '../widgets/user_provider_widget.dart';
 
 class ProfileDrawer extends StatelessWidget {
   ProfileDrawer({super.key});
@@ -9,6 +12,7 @@ class ProfileDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User? user = UserProvider.of(context)?.user;
     return Drawer(
       backgroundColor: Colors.white,
       width: 400.h,
@@ -39,7 +43,8 @@ class ProfileDrawer extends StatelessWidget {
                 SizedBox(height: 10.h),
 
                 Text(
-                  "Muhammed Naseem",
+                  user?.email ?? user?.phoneNumber ?? '--',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
@@ -50,7 +55,8 @@ class ProfileDrawer extends StatelessWidget {
                 SizedBox(height: 4.h),
 
                 Text(
-                  "ID : 410",
+                  "ID : ${user?.uid ?? '--'}",
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black54,
                     fontSize: 16.h,
