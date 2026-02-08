@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "640652822245",
+    "project_id": "zartek-flutter",
+    "storage_bucket": "zartek-flutter.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:640652822245:android:d1eee5e01b9ad5558c360c",
+        "android_client_info": {
+          "package_name": "com.zartek.zartek_flutter_test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "640652822245-d9pk9h7m3632ih2s5vqhc653prb3hhc5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zartek.zartek_flutter_test",
+            "certificate_hash": "4b1bbfcc59e8c18b06daaec8827eac9146b55140"
+          }
+        },
+        {
+          "client_id": "640652822245-0035ru39ms1i1n69gs36isk4b8t9f5a9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBndWKRpvbV198OVHAw39kzNrHV5hRvdKQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "640652822245-0035ru39ms1i1n69gs36isk4b8t9f5a9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
