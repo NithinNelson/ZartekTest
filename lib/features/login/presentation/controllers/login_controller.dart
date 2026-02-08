@@ -12,7 +12,7 @@ import '../../domain/usecases/verify_otp_usecase.dart';
 
 class LoginController extends GetxController {
   final datasource = AuthRemoteDatasourceImpl();
-  late final repository = AuthRepositoryImpl(datasource);
+  late final repository = AuthRepositoryImpl(datasource, networkInfo: Get.find());
 
   late final googleLogin = GoogleSignInUseCase(repository);
   late final phoneLogin = PhoneSignInUseCase(repository);
@@ -36,15 +36,21 @@ class LoginController extends GetxController {
 
   var loading = false.obs;
   var verificationId = ''.obs;
+  RxnString errorMessage = RxnString(null);
 
-  Future<void> loginWithGoogle() async {
+  Future<String?> loginWithGoogle() async {
     loading.value = true;
+    errorMessage.value = null;
     final user = await googleLogin();
     loading.value = false;
 
-    if (user != null) {
-      printDebug("Google Login Success: ${user.email}");
-    }
+    user.fold((l) => errorMessage.value = l.message, (r) {
+      if (r != null) {
+        printDebug("Google Login Success: ${r.email}");
+      }
+    });
+
+    return errorMessage.value;
   }
 
   Future<void> loginWithPhone(String phone) async {

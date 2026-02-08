@@ -17,9 +17,12 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
+  final errorMessage = RxnString();
   Future<void> fetchMenu({required bool loader}) async {
     loading.value = loader;
-    menu.value = await getMenuUseCase();
+    errorMessage.value = null;
+    final result = await getMenuUseCase();
+    result.fold((l) => errorMessage.value = l.message, (r) => menu.value = r);
     loading.value = false;
   }
 
@@ -34,10 +37,11 @@ class HomeController extends GetxController {
       m!.categories[categoryIndex].dishes[dishIndex] = updatedDish;
     });
 
-    totalCartItem.value = menu.value?.categories
-        .expand((c) => c.dishes)
-        .where((d) => d.inCart)
-        .fold<int>(0, (sum, item) => sum + item.quantity) ??
+    totalCartItem.value =
+        menu.value?.categories
+            .expand((c) => c.dishes)
+            .where((d) => d.inCart)
+            .fold<int>(0, (sum, item) => sum + item.quantity) ??
         0;
   }
 
@@ -57,10 +61,11 @@ class HomeController extends GetxController {
     menu.update((m) {
       m!.categories[categoryIndex].dishes[dishIndex] = updatedDish;
     });
-    totalCartItem.value = menu.value?.categories
-        .expand((c) => c.dishes)
-        .where((d) => d.inCart)
-        .fold<int>(0, (sum, item) => sum + item.quantity) ??
+    totalCartItem.value =
+        menu.value?.categories
+            .expand((c) => c.dishes)
+            .where((d) => d.inCart)
+            .fold<int>(0, (sum, item) => sum + item.quantity) ??
         0;
   }
 }

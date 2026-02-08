@@ -49,9 +49,7 @@ class _UserHomeState extends State<UserHome> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    SystemChrome.setSystemUIOverlayStyle(
-      systemUiOverlayStyleLight,
-    );
+    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyleLight);
     return UserProvider(
       user: FirebaseAuth.instance.currentUser,
       child: Scaffold(
@@ -73,7 +71,11 @@ class _UserHomeState extends State<UserHome> with TickerProviderStateMixin {
                   onPressed: () {
                     AppRoutes.goNext(AppRoutes.checkOut);
                   },
-                  icon: Icon(Icons.shopping_cart, size: 30.h, color: Colors.grey),
+                  icon: Icon(
+                    Icons.shopping_cart,
+                    size: 30.h,
+                    color: Colors.grey,
+                  ),
                 ),
                 Positioned(
                   right: 6.h,
@@ -91,9 +93,12 @@ class _UserHomeState extends State<UserHome> with TickerProviderStateMixin {
                         builder: (HomeController controller) {
                           return Text(
                             "${controller.totalCartItem.value}",
-                            style: TextStyle(fontSize: 12.h, color: Colors.white),
+                            style: TextStyle(
+                              fontSize: 12.h,
+                              color: Colors.white,
+                            ),
                           );
-                        }
+                        },
                       ),
                     ),
                   ),
@@ -128,8 +133,14 @@ class _UserHomeState extends State<UserHome> with TickerProviderStateMixin {
                   ],
                 ),
               );
+            } else if (controller.errorMessage.value != null) {
+              return EmptyView(
+                controller: controller,
+                message:
+                    controller.errorMessage.value ?? 'Something went wrong',
+              );
             } else if (categories.isEmpty) {
-              return EmptyView(controller: controller);
+              return EmptyView(controller: controller, message: 'Empty');
             } else {
               return Column(
                 children: [
@@ -175,7 +186,7 @@ class _UserHomeState extends State<UserHome> with TickerProviderStateMixin {
                       children: [
                         for (int i = 0; i < categories.length; i++)
                           if (categories[i].dishes.isEmpty)
-                            EmptyView(controller: controller)
+                            EmptyView(controller: controller, message: 'Empty')
                           else
                             RefreshIndicator(
                               onRefresh: () async {
@@ -187,14 +198,16 @@ class _UserHomeState extends State<UserHome> with TickerProviderStateMixin {
                                   // horizontal: 10.h,
                                 ),
                                 itemBuilder: (BuildContext context, int index) {
-                                  DishEntity? dish = categories[i].dishes[index];
+                                  DishEntity? dish =
+                                      categories[i].dishes[index];
                                   return FoodItemTile(
                                     title: dish.name,
                                     price: "${dish.currency} ${dish.price}",
                                     calories: "${dish.calories} calories",
                                     description: dish.description,
                                     imageUrl: dish.imageUrl,
-                                    customizationsAvailable: dish.hasCustomization,
+                                    customizationsAvailable:
+                                        dish.hasCustomization,
                                     isVeg: dish.isVeg,
                                     quantity: dish.quantity,
                                     categoryIndex: i,
@@ -202,7 +215,8 @@ class _UserHomeState extends State<UserHome> with TickerProviderStateMixin {
                                   );
                                 },
                                 separatorBuilder:
-                                    (BuildContext context, int index) => Divider(),
+                                    (BuildContext context, int index) =>
+                                        Divider(),
                                 itemCount: categories[i].dishes.length ?? 0,
                               ),
                             ),

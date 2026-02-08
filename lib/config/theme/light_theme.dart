@@ -78,7 +78,7 @@ SystemUiOverlayStyle systemUiOverlayStyleLight = SystemUiOverlayStyle(
   systemNavigationBarColor: Colors.white,
   statusBarColor: Colors.transparent,
   statusBarBrightness: Brightness.light,
-  statusBarIconBrightness: Brightness.light,
+  statusBarIconBrightness: Brightness.dark,
   systemStatusBarContrastEnforced: false,
   systemNavigationBarIconBrightness: Brightness.light,
 );

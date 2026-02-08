@@ -8,6 +8,8 @@ import 'package:zartek_flutter_test/core/constants/assets.dart';
 import 'package:zartek_flutter_test/features/login/presentation/controllers/login_controller.dart';
 import 'package:zartek_flutter_test/routes/app_routes.dart';
 
+import '../../../../core/utils/logger.dart';
+
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
@@ -37,7 +39,23 @@ class LoginScreen extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () async {
-                      await loginController.loginWithGoogle();
+                      final output = await loginController.loginWithGoogle();
+                      if(output != null) {
+                        if (!Get.isSnackbarOpen) {
+                          Get.snackbar(
+                            "Error",
+                            output,
+                            snackPosition: SnackPosition.TOP,
+                            backgroundColor: Colors.red,
+                            borderRadius: 20,
+                            margin: EdgeInsets.all(15),
+                            colorText: Colors.white,
+                            duration: Duration(seconds: 4),
+                            isDismissible: true,
+                            forwardAnimationCurve: Curves.easeOutBack,
+                          );
+                        }
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(
@@ -59,7 +77,7 @@ class LoginScreen extends StatelessWidget {
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(500).r,
-                            child: Image.network(
+                            child: Image.asset(
                               Assets.googleIcon,
                               height: 25.h,
                               fit: BoxFit.fitHeight,
@@ -81,7 +99,7 @@ class LoginScreen extends StatelessWidget {
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(500).r,
-                            child: Image.network(
+                            child: Image.asset(
                               Assets.googleIcon,
                               height: 30.h,
                               fit: BoxFit.fitHeight,

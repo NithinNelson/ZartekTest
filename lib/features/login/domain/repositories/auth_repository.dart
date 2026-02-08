@@ -1,7 +1,10 @@
+import 'package:dartz/dartz.dart';
+
+import '../../../../core/error/failure.dart';
 import '../entities/user_entity.dart';
 
 abstract class AuthRepository {
-  Future<UserEntity?> signInWithGoogle();
+  Future<Either<Failure, UserEntity?>> signInWithGoogle();
   Future<void> signInWithPhone(String phone);
   Future<UserEntity?> verifyOtp(String verificationId, String otp);
   Future<void> logOut();

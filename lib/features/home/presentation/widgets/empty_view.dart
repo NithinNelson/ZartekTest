@@ -1,11 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zartek_flutter_test/features/home/presentation/controllers/home_controller.dart';
 
 class EmptyView extends StatelessWidget {
   final HomeController controller;
-  const EmptyView({super.key, required this.controller});
+  final String message;
+  const EmptyView({super.key, required this.controller, required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class EmptyView extends StatelessWidget {
               SizedBox(height: (constraints.maxHeight / 2).h),
               Center(
                 child: Text(
-                  'Empty',
+                  message,
                   style: Theme.of(
                     context,
                   ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
