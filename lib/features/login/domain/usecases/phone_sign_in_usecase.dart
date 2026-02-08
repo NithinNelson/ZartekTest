@@ -1,3 +1,4 @@
+import '../../../../core/error/failure.dart';
 import '../repositories/auth_repository.dart';
 
 class PhoneSignInUseCase {
@@ -5,5 +6,5 @@ class PhoneSignInUseCase {
 
   PhoneSignInUseCase(this.repository);
 
-  Future<void> call(String phone) => repository.signInWithPhone(phone);
+  Future<Failure?> call(String phone) => repository.signInWithPhone(phone);
 }

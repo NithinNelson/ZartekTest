@@ -1,4 +1,6 @@
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:zartek_flutter_test/core/error/firebase_error_mapper.dart';
 import 'package:zartek_flutter_test/core/network/network_info.dart';
 import 'package:zartek_flutter_test/features/login/data/models/user_model.dart';
 
@@ -28,7 +30,20 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> signInWithPhone(String phone) => datasource.signInWithPhone(phone);
+  Future<Failure?> signInWithPhone(String phone) async {
+    if (await networkInfo.isConnected) {
+      try {
+        await datasource.signInWithPhone(phone);
+      } on FirebaseAuthException catch(e) {
+        return ServerFailure(FirebaseErrorMapper.map(e.message ?? e.code));
+      } catch(e) {
+        return ServerFailure(e.toString());
+      }
+    } else {
+      NetworkFailure("No internet connection");
+    }
+    return null;
+  }
 
   @override
   Future<UserEntity?> verifyOtp(String verificationId, String otp) =>

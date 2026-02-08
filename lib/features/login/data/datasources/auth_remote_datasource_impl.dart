@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -31,21 +33,28 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
 
   @override
   Future<void> signInWithPhone(String phone) async {
+    final completer = Completer<void>();
+
     await _auth.verifyPhoneNumber(
       phoneNumber: phone,
       verificationCompleted: (credential) async {
         await _auth.signInWithCredential(credential);
+        if (!completer.isCompleted) completer.complete();
       },
       verificationFailed: (e) {
-        throw Exception(e.message);
+        if (!completer.isCompleted) {
+          completer.completeError(e);
+        }
       },
       codeSent: (verificationId, _) {
         _verificationId = verificationId;
+        if (!completer.isCompleted) completer.complete();
       },
       codeAutoRetrievalTimeout: (verificationId) {
         _verificationId = verificationId;
       },
     );
+    return completer.future;
   }
 
   @override

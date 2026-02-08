@@ -90,8 +90,24 @@ class _PhoneLoginPageState extends State<PhoneLoginPage> {
                       ? () async {
                           final phone = "+91${phoneController.text.trim()}";
 
-                          await controller.loginWithPhone(phone);
+                          final output = await controller.loginWithPhone(phone);
 
+                          if(output != null) {
+                            if (!Get.isSnackbarOpen) {
+                              Get.snackbar(
+                                "Error",
+                                output,
+                                snackPosition: SnackPosition.TOP,
+                                backgroundColor: Colors.red,
+                                borderRadius: 20,
+                                margin: EdgeInsets.all(15),
+                                colorText: Colors.white,
+                                duration: Duration(seconds: 4),
+                                isDismissible: true,
+                                forwardAnimationCurve: Curves.easeOutBack,
+                              );
+                            }
+                          }
                           if (controller.verificationId.isNotEmpty) {
                             AppRoutes.goNext(AppRoutes.otp);
                           }

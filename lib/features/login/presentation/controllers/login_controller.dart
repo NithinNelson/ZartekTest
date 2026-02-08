@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:zartek_flutter_test/core/error/failure.dart';
 import 'package:zartek_flutter_test/core/utils/logger.dart';
 import 'package:zartek_flutter_test/features/login/domain/usecases/log_out_usecase.dart';
 
@@ -53,9 +54,11 @@ class LoginController extends GetxController {
     return errorMessage.value;
   }
 
-  Future<void> loginWithPhone(String phone) async {
-    await phoneLogin(phone);
+  Future<String?> loginWithPhone(String phone) async {
+    Failure? error = await phoneLogin(phone);
+    if(error != null) return error.message;
     verificationId.value = datasource.verificationId ?? '';
+    return null;
   }
 
   Future<void> verifyOtp(String otp) async {
